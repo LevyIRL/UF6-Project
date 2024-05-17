@@ -7,7 +7,7 @@ package DAO;
 
 /**
  *
- * @author alfredo
+ * @author levy
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
