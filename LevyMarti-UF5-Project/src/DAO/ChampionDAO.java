@@ -26,7 +26,7 @@ public class ChampionDAO extends BaseDAO{
             champ = new Champion();
             champ.setCode(rs.getInt("code"));
             champ.setName(rs.getString("name"));
-            champ.setShortDesc("shortDesc");
+            champ.setShortDesc(rs.getString("shortDesc"));
             champ.setWinrate(rs.getInt("winrate"));
             champ.setReleaseDate(rs.getDate("releaseDate").toLocalDate());
             champ.setRanged(rs.getBoolean("isRanged"));

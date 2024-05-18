@@ -5,6 +5,9 @@
 package main;
 
 import DAO.BDUtil;
+import DAO.ChampionDAO;
+import DAO.TypeDAO;
+import model.Champion;
 
 /**
  *
@@ -13,7 +16,14 @@ import DAO.BDUtil;
 public class Main {
     public static void main(String[] args) {
         try {
-            BDUtil.createDatabaseStructure();
+            //BDUtil.createDatabaseStructure();
+            TypeDAO tpDao = new TypeDAO();
+            ChampionDAO champDao = new ChampionDAO();
+
+            Champion test = champDao.getChampion(1);
+
+            System.out.println(test.getShortDesc());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,10 +11,13 @@ package model;
 public class Type {
     private int id;
     private String role;
+    
     public Type(int id, String role) {
         this.id = id;
         this.role = role;
     }
+
+    public Type(){};
 
     public int getId() {
         return id;
