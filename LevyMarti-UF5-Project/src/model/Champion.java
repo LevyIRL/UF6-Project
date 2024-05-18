@@ -32,6 +32,8 @@ public class Champion {
         this.price = price;
     }
 
+    public Champion(){};
+
     public int getCode() {
         return code;
     }
