@@ -16,13 +16,11 @@ import model.Champion;
 public class Main {
     public static void main(String[] args) {
         try {
-            //BDUtil.createDatabaseStructure();
+            //BDUtil.createDatabaseStructure(); //execute 1 time
             TypeDAO tpDao = new TypeDAO();
             ChampionDAO champDao = new ChampionDAO();
 
-            Champion test = champDao.getChampion(1);
-
-            System.out.println(test.getShortDesc());
+            
 
         } catch (Exception e) {
             e.printStackTrace();

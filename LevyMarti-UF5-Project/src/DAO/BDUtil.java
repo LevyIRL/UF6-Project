@@ -39,7 +39,10 @@ public class BDUtil {
                 + "price double, "
                 + "typeID integer, "
                 + "PRIMARY KEY (code), "
-                + "CONSTRAINT FOREIGN KEY fk_champion_type (typeID) REFERENCES type (id));";
+                + "FOREIGN KEY (typeID) "
+                + "REFERENCES type (id) "
+                + "ON DELETE SET NULL "
+                + "ON UPDATE CASCADE)";
 
         stmt = conn.prepareStatement(query);
         stmt.executeUpdate();
