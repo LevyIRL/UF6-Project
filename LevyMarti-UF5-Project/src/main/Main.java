@@ -4,10 +4,18 @@
  */
 package main;
 
+import DAO.BDUtil;
+
 /**
  *
  * @author levy
  */
 public class Main {
-    
+    public static void main(String[] args) {
+        try {
+            BDUtil.createDatabaseStructure();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
