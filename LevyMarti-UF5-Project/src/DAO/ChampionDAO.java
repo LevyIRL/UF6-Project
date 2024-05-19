@@ -8,23 +8,23 @@ import java.sql.SQLException;
 import model.Champion;
 import model.Type;
 
-public class ChampionDAO extends BaseDAO{
-    
-    public ChampionDAO(){
+public class ChampionDAO extends BaseDAO {
+
+    public ChampionDAO() {
         this.connect();
     }
-    
+
     public Champion getChampion(int code) throws SQLException {
         PreparedStatement stmt;
         ResultSet rs;
         Champion champ = null;
-        
+
         String query = "SELECT * FROM champion WHERE champion.code = ?";
         stmt = conn.prepareStatement(query);
         stmt.setInt(1, code);
         rs = stmt.executeQuery();
 
-        if(rs.next()){
+        if (rs.next()) {
             champ = new Champion();
             champ.setCode(rs.getInt("code"));
             champ.setName(rs.getString("name"));
@@ -38,11 +38,11 @@ public class ChampionDAO extends BaseDAO{
             Type type = tpDao.getType(typeID);
             champ.setType(type);
         }
-        
+
         return champ;
     }
 
-    public int insertChampion(Champion item) throws SQLException{
+    public int insertChampion(Champion item) throws SQLException {
         String query = "INSERT INTO champion (code, name, shortDesc, winrate, releaseDate, isRanged, price, typeID) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -61,7 +61,7 @@ public class ChampionDAO extends BaseDAO{
         return affectedRows;
     }
 
-    public int deleteType(int code) throws SQLException{
+    public int deleteType(int code) throws SQLException {
         String query = "DELETE FROM champion WHERE code = ?";
         PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -73,7 +73,7 @@ public class ChampionDAO extends BaseDAO{
         return count;
     }
 
-    public int updateType(Champion item) throws SQLException{
+    public int updateType(Champion item) throws SQLException {
         String query = "UPDATE champion SET name = ?, shortDesc = ?, winrate = ?, releaseDate = ?, isRanged = ?, price = ?, typeID = ? WHERE code = ?";
         PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -91,7 +91,7 @@ public class ChampionDAO extends BaseDAO{
         return count;
     }
 
-    public int showChamps() throws SQLException{
+    public int showChamps() throws SQLException {
         PreparedStatement stmt;
         ResultSet rs;
         int count = 0;
@@ -122,7 +122,7 @@ public class ChampionDAO extends BaseDAO{
         return count;
     }
 
-    public int showChampsByType(Type filter) throws SQLException{
+    public int showChampsByType(Type filter) throws SQLException {
         PreparedStatement stmt;
         ResultSet rs;
         int count = 0;
@@ -150,7 +150,28 @@ public class ChampionDAO extends BaseDAO{
             System.out.println("================================");
             count++;
         }
+        stmt.close();
 
         return count;
+    }
+
+    public void getPriceByType() throws SQLException {
+        TypeDAO tpDao = new TypeDAO();
+        PreparedStatement stmt;
+        ResultSet rs;
+
+        String query = "select TypeID, sum(price) " +
+                "from champion " +
+                "group by TypeID " +
+                "order by TypeID";
+
+        stmt = conn.prepareStatement(query);
+        rs = stmt.executeQuery();
+        while(rs.next()){
+            System.out.println("================================");
+            System.out.println(tpDao.getType(rs.getInt("TypeID")).getRole() + ": " + rs.getDouble("sum(price)"));
+            System.out.println("================================");
+        }
+        stmt.close();
     }
 }

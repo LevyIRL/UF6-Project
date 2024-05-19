@@ -33,6 +33,8 @@ public class Main {
             //champDao.insertChampion(testchamp1);
 
             champDao.showChamps();
+            champDao.showChampsByType(testtype1);
+            champDao.getPriceByType();
 
         } catch (Exception e) {
             e.printStackTrace();
