@@ -6,32 +6,32 @@ import java.sql.SQLException;
 
 import model.Type;
 
-public class TypeDAO extends BaseDAO{
+public class TypeDAO extends BaseDAO {
 
-    public TypeDAO(){
+    public TypeDAO() {
         this.connect();
     }
 
-    public Type getType(int id) throws SQLException{
+    public Type getType(int id) throws SQLException {
         PreparedStatement stmt;
         ResultSet rs;
         Type type = null;
-        
+
         String query = "SELECT * FROM type WHERE type.id = ?";
         stmt = conn.prepareStatement(query);
         stmt.setInt(1, id);
         rs = stmt.executeQuery();
 
-        if(rs.next()){
+        if (rs.next()) {
             type = new Type();
             type.setId(rs.getInt("id"));
-            type.setRole(rs.getString("role"));            
+            type.setRole(rs.getString("role"));
         }
 
         return type;
     }
 
-    public int insertType(Type item) throws SQLException{
+    public int insertType(Type item) throws SQLException {
         String query = "INSERT INTO type VALUES (?, ?)";
         PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -44,25 +44,33 @@ public class TypeDAO extends BaseDAO{
         return affectedRows;
     }
 
-    public int deleteType(int id) throws SQLException{
-        String query = "DELETE FROM type WHERE id = ?";
-        PreparedStatement stmt = conn.prepareStatement(query);
+    public int deleteType(int id) throws SQLException {
+        int count = 0;
+        if (getType(id) == null) {
+            System.out.println("This type doesn't exist.");
+        } else {
+            String query = "DELETE FROM type WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
 
-        stmt.setInt(1, id);
-
-        int count = stmt.executeUpdate();
-
-        stmt.close();
+            stmt.setInt(1, id);
+            count = stmt.executeUpdate();
+            stmt.close();
+        }
         return count;
     }
 
-    public int updateType(Type item) throws SQLException{
-        String query = "UPDATE type SET role = ? WHERE id = ?";
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, item.getRole());
-        stmt.setInt(2, item.getId());
-        int count = stmt.executeUpdate();
-        stmt.close();
+    public int updateType(Type item) throws SQLException {
+        int count = 0;
+        if (getType(item.getId()) == null) {
+            System.out.println("This type doesn't exist.");
+        } else {
+            String query = "UPDATE type SET role = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, item.getRole());
+            stmt.setInt(2, item.getId());
+            count = stmt.executeUpdate();
+            stmt.close();
+        }
         return count;
     }
 }
