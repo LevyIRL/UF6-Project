@@ -43,7 +43,7 @@ public class ChampionDAO extends BaseDAO{
     }
 
     public int insertChampion(Champion item) throws SQLException{
-        String query = "INSERT INTO champion (code, name, shortDesc, winrate, releaseDate, isRanged, price, typeID)";
+        String query = "INSERT INTO champion (code, name, shortDesc, winrate, releaseDate, isRanged, price, typeID) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = conn.prepareStatement(query);
 
         stmt.setInt(1, item.getCode());
@@ -88,6 +88,54 @@ public class ChampionDAO extends BaseDAO{
 
         int count = stmt.executeUpdate();
         stmt.close();
+        return count;
+    }
+
+    public int showChamps() throws SQLException{
+        PreparedStatement stmt;
+        ResultSet rs;
+        int count = 0;
+        Champion champ = null;
+
+        String query = "SELECT * FROM champion ORDER BY code";
+        stmt = conn.prepareStatement(query);
+        rs = stmt.executeQuery();
+        while (rs.next()) {
+            System.out.println("================================");
+            champ = new Champion();
+            champ.setCode(rs.getInt("code"));
+            champ.setName(rs.getString("name"));
+            champ.setShortDesc(rs.getString("shortDesc"));
+            champ.setWinrate(rs.getInt("winrate"));
+            champ.setReleaseDate(rs.getDate("releaseDate").toLocalDate());
+            champ.setRanged(rs.getBoolean("isRanged"));
+            champ.setPrice(rs.getDouble("price"));
+            int typeID = rs.getInt("typeID");
+            TypeDAO tpDao = new TypeDAO();
+            Type type = tpDao.getType(typeID);
+            champ.setType(type);
+            champ.showChamp();
+            System.out.println("================================");
+            count++;
+        }
+
+        return count;
+    }
+
+    public int showChampsByType(Type filter) throws SQLException{
+        PreparedStatement stmt;
+        ResultSet rs;
+        int count = 0;
+        Champion champ = null;
+
+        String query = "SELECT * FROM champion WHERE typeID = ? ORDER BY code";
+        stmt = conn.prepareStatement(query);
+        stmt.setInt(1, filter.getId());
+        rs = stmt.executeQuery();
+        while (rs.next()) {
+            
+        }
+
         return count;
     }
 }

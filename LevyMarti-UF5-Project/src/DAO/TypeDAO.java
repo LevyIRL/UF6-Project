@@ -32,7 +32,7 @@ public class TypeDAO extends BaseDAO{
     }
 
     public int insertType(Type item) throws SQLException{
-        String query = "INSERT INTO type (id, role)";
+        String query = "INSERT INTO type VALUES (?, ?)";
         PreparedStatement stmt = conn.prepareStatement(query);
 
         stmt.setInt(1, item.getId());

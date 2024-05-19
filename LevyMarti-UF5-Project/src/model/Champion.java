@@ -4,7 +4,12 @@
  */
 package model;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.Date;
+
+import DAO.ChampionDAO;
+import DAO.TypeDAO;
 
 /**
  *
@@ -88,5 +93,31 @@ public class Champion {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void showChamp(int code) throws SQLException{
+        ChampionDAO champDao = new ChampionDAO();
+        TypeDAO tpDao = new TypeDAO();
+        Champion champ = champDao.getChampion(code);
+        System.out.println("Code:\t" + champ.getCode());
+        System.out.println("Name:\t" + champ.getName());
+        System.out.println("Short Description: " + champ.getShortDesc());
+        System.out.println("Winrate:\t" + champ.getWinrate());
+        System.out.println("Release Date:\t" + Date.valueOf(champ.getReleaseDate()));
+        System.out.println("Is ranged?\t" + champ.isRanged());
+        System.out.println("Price:\t" + champ.getPrice());
+        System.out.println("Type:\t" + tpDao.getType(champ.getType().getId()).getRole());
+    }
+
+    public void showChamp() throws SQLException{
+        TypeDAO tpDao = new TypeDAO();
+        System.out.println("Code:\t" + this.getCode());
+        System.out.println("Name:\t" + this.getName());
+        System.out.println("Short Description: " + this.getShortDesc());
+        System.out.println("Winrate:\t" + this.getWinrate());
+        System.out.println("Release Date:\t" + Date.valueOf(this.getReleaseDate()));
+        System.out.println("Is ranged?\t" + this.isRanged());
+        System.out.println("Price:\t" + this.getPrice());
+        System.out.println("Type:\t" + tpDao.getType(this.getType().getId()).getRole());
     }
 }

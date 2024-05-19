@@ -4,10 +4,14 @@
  */
 package main;
 
+
+import java.time.LocalDate;
+
 import DAO.BDUtil;
 import DAO.ChampionDAO;
 import DAO.TypeDAO;
 import model.Champion;
+import model.Type;
 
 /**
  *
@@ -20,7 +24,15 @@ public class Main {
             TypeDAO tpDao = new TypeDAO();
             ChampionDAO champDao = new ChampionDAO();
 
-            
+            LocalDate testDate2 = LocalDate.of(2012, 3, 4);
+
+            Type testtype1 = new Type(2, "Mage");
+            Champion testchamp1 = new Champion(2, "Ryze", testtype1, "Battlemage", 45, testDate2, true, 35.4);
+
+            //tpDao.insertType(testtype1);
+            //champDao.insertChampion(testchamp1);
+
+            champDao.showChamps();
 
         } catch (Exception e) {
             e.printStackTrace();
