@@ -133,7 +133,22 @@ public class ChampionDAO extends BaseDAO{
         stmt.setInt(1, filter.getId());
         rs = stmt.executeQuery();
         while (rs.next()) {
-            
+            System.out.println("================================");
+            champ = new Champion();
+            champ.setCode(rs.getInt("code"));
+            champ.setName(rs.getString("name"));
+            champ.setShortDesc(rs.getString("shortDesc"));
+            champ.setWinrate(rs.getInt("winrate"));
+            champ.setReleaseDate(rs.getDate("releaseDate").toLocalDate());
+            champ.setRanged(rs.getBoolean("isRanged"));
+            champ.setPrice(rs.getDouble("price"));
+            int typeID = rs.getInt("typeID");
+            TypeDAO tpDao = new TypeDAO();
+            Type type = tpDao.getType(typeID);
+            champ.setType(type);
+            champ.showChamp();
+            System.out.println("================================");
+            count++;
         }
 
         return count;
